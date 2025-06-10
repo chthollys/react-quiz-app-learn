@@ -28,6 +28,8 @@ This is a simple interactive quiz application built with React. It features time
 │       ├── Question.jsx
 │       ├── QuestionTimer.jsx
 │       └── Quiz.jsx
+│       └── Stat.jsx
+│       └── Summary.jsx
 ├── index.html
 ├── package.json
 ├── vite.config.js
