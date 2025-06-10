@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import QUESTIONS from "../questions";
 
 function Question({ index, onAddAnswer, onSkip }) {
+  console.log("RENDER");
   const { text: questionText, answers } = QUESTIONS[index];
 
   const [userAnswer, setUserAnswer] = useState({
@@ -24,41 +25,42 @@ function Question({ index, onAddAnswer, onSkip }) {
     setUserAnswer(() => {
       return {
         selectedAnswer: answer,
-        status: "answered",
+        status: null,
       };
     });
     setTimeout(() => {
-      setUserAnswer((prevAnswerState) => {
+      setUserAnswer(() => {
         return {
-          ...prevAnswerState,
-          status: QUESTIONS[index].answers[0] === answer ? "correct" : "wrong",
+          selectedAnswer: answer,
+          status: QUESTIONS[index].answers[0] === answer,
         };
       });
 
       setTimeout(() => {
-        setUserAnswer((prevAnswerState) => {
-          return {
-            ...prevAnswerState,
-            status: null,
-          };
-        });
         onAddAnswer(answer);
       }, 2000);
     }, 1000);
   });
+
+  let answerState = '';
+  if (userAnswer.selectedAnswer && userAnswer.status !== null) {
+    answerState = userAnswer.status ? 'correct' : 'wrong';
+  } else if (userAnswer.selectedAnswer) {
+    answerState = 'answered';
+  }
 
   return (
     <div id="question">
       <QuestionTimer
         timeout={timer}
         onTimeout={onSkip}
-        mode={userAnswer.status}
+        mode={answerState}
       />
       <h2>{questionText}</h2>
       <Answers
         answers={answers}
         selectedAnswer={userAnswer.selectedAnswer}
-        answerState={userAnswer.status}
+        answerState={answerState}
         onSelect={handleSelectAnswer}
       />
     </div>
