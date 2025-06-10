@@ -4,7 +4,6 @@ import { useCallback, useState } from "react";
 import QUESTIONS from "../questions";
 
 function Question({ index, onAddAnswer, onSkip }) {
-  console.log("RENDER");
   const { text: questionText, answers } = QUESTIONS[index];
 
   const [userAnswer, setUserAnswer] = useState({
@@ -52,6 +51,7 @@ function Question({ index, onAddAnswer, onSkip }) {
   return (
     <div id="question">
       <QuestionTimer
+        key={timer}
         timeout={timer}
         onTimeout={onSkip}
         mode={answerState}
